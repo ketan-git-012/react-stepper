@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useContext } from "react";
+import "./styles.css";
 
-function App() {
+import Stepper from "react-stepper-horizontal";
+import SenderAddress from "./components/SenderAddress";
+import RecevierAddress from "./components/RecevierAddress";
+import Confirmation from "./components/Confirmation";
+import GetWeight from "./components/GetWeight";
+import ShippingOption from "./components/ShippingOption";
+import Printonly from "./components/PrintOnly";
+import { LabelContext } from "./labelDataContext";
+
+const App = (props) => {
+  const value = useContext(LabelContext);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {value.page !== 5 && (
+        <div className="stepper">
+        <Stepper
+          steps={value.steps}
+          activeStep={value.page}
+          activeColor="red"
+          defaultBarColor="gray"
+          completeColor="green"
+          completeBarColor="green"
+          size={60}
+        />
+        </div>
+      )}
+      {value.page === 0 && <SenderAddress />}
+      {value.page === 1 && <RecevierAddress />}
+      {value.page === 2 && <ShippingOption />}
+      {value.page === 3 && <Confirmation />}
+      {value.page === 4 && <Printonly />}
     </div>
   );
-}
-
+};
 export default App;
